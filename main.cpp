@@ -10,15 +10,6 @@
 #include <windows.h>
 #endif
 
-bool is_numeric(std::string str) {
-    for (char ch : str) {
-        if (!isdigit(ch) && ch != '-' && ch != ','){
-            return false;
-        }
-    }
-    return true;
-}
-
 std::unordered_map<std::string, std::vector<float>> read_municipal_tax_rates(std::string mun_tax_file) {
 
     std::ifstream file(mun_tax_file);
