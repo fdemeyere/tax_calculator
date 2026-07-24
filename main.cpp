@@ -66,14 +66,59 @@ std::unordered_map<std::string, std::vector<float>> read_municipal_tax_rates(std
     return mun_tax_rates;
 }
 
+float get_municipal_regional_sum_tax_rate(std::string mun, std::unordered_map<std::string, std::vector<float>> mun_tax_rates) {
+    return mun_tax_rates[mun][0];
+}
+
+float get_municipal_tax_rate(std::string mun, std::unordered_map<std::string, std::vector<float>> mun_tax_rates) {
+    return mun_tax_rates[mun][2];
+}
+
+float get_regional_tax_rate_by_municipality(std::string mun, std::unordered_map<std::string, std::vector<float>> mun_tax_rates) {
+    return mun_tax_rates[mun][4];
+}
+
+std::vector<std::string> get_municipalites_by_municipal_regional_sum_tax_rate(bool desc) {
+
+}
+
+void terminal_loop(std::unordered_map<std::string, std::vector<float>> mun_tax_rates) {
+    std::string input;
+    std::cout << "Kommunal och regionalskattesats efter kommun" << std::endl;
+    std::cout << "---------------------------------------" << std::endl;
+    std::cout << "Kommun: ";
+    while (std::getline(std::cin, input)) {
+
+        if (input == "quit") {
+            break;
+        }
+
+        if (input.empty()) continue;
+        if (mun_tax_rates.contains(input)) {
+            std::cout << "Kommunalskatt: " << get_municipal_tax_rate(input, mun_tax_rates) << "%" << std::endl;
+            std::cout << "Regionalskatt: " << get_regional_tax_rate_by_municipality(input, mun_tax_rates) << "%" << std::endl;
+            std::cout << "Totalt: " << get_municipal_regional_sum_tax_rate(input, mun_tax_rates) << "%" << std::endl;
+        } else {
+            std::cout << "Hittade inte kommunen" << std::endl;
+        }
+
+        std::cout << "---------------------------------------" << std::endl;
+        std::cout << "Kommun: ";
+    }
+}
+
 int main()
 {
     #ifdef _WIN32
     SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
     #endif
 
     std::string mun_tax_file = "municipal_tax_rates.txt";
     std::unordered_map<std::string, std::vector<float>> mun_tax_rates = read_municipal_tax_rates(mun_tax_file);
-    std::cout << mun_tax_rates["Ale"][4];
+
+    terminal_loop(mun_tax_rates);
+
+    // std::cout << get_municipal_regional_sum_tax_rate("Alingsås", mun_tax_rates);
     return 0;
 }
